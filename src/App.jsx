@@ -7,20 +7,27 @@ export const App = () => {
   const [todoText, setTodoText] = useState([]);
   const [inCompleteTodos, setInompleteTodos] = useState([]);
   const [completeTodos, setCompleteTodos] = useState([]);
-
+  const [errorTodos,seterrorTodos]=useState([])
   ///処理を行う関数///////
 
   // インプットエリアから入力する処理
   const onChangeText = (event) => {
-    setTodoText(event.target.value);
+    
+    if (todoText === "") {setTodoText(event.target.value)}
+    
   };
 
   // インプットエリアから未完了エリアにテキストを追加する関数
   const onClickAdd = () => {
     if (todoText === "") return;
-    const newTodos = [...inCompleteTodos, todoText];
+    //   const noTodos =[...inCompleteTodos];
+    //   console.log(inCompleteTodos)
+    //   console.log(seterrorTodos(noTodos))
+    // }else{
+      const newTodos = [...inCompleteTodos, todoText];
     setInompleteTodos(newTodos);
     setTodoText("");
+    
   };
 
   // 未完了のエリアから削除ボタンが押された行のタスクを消す処理
