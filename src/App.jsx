@@ -4,30 +4,35 @@ import { InputTodo } from "./component/InputTodo";
 import { InCompleteTodo } from "./component/IncompleteTodo";
 import { CompleteTodo } from "./component/CompleteTodo";
 export const App = () => {
-  const [todoText, setTodoText] = useState([]);
+  const [todoText, setTodoText] = useState("");
   const [inCompleteTodos, setInompleteTodos] = useState([]);
   const [completeTodos, setCompleteTodos] = useState([]);
-  const [errorTodos,seterrorTodos]=useState([])
+  const [errorTodos, seterrorTodos] = useState(false);
   ///処理を行う関数///////
 
   // インプットエリアから入力する処理
   const onChangeText = (event) => {
-    
-    if (todoText === "") {setTodoText(event.target.value)}
-    
+    setTodoText(event.target.value);
   };
 
   // インプットエリアから未完了エリアにテキストを追加する関数
   const onClickAdd = () => {
-    if (todoText === "") return;
+    console.log(errorTodos);
+
+    if (todoText === "") {
+      const judge = true;
+      seterrorTodos(judge);
+      return;
+    }
     //   const noTodos =[...inCompleteTodos];
     //   console.log(inCompleteTodos)
     //   console.log(seterrorTodos(noTodos))
     // }else{
-      const newTodos = [...inCompleteTodos, todoText];
+    const newTodos = [...inCompleteTodos, todoText];
     setInompleteTodos(newTodos);
+    seterrorTodos(false);
+    console.log(errorTodos);
     setTodoText("");
-    
   };
 
   // 未完了のエリアから削除ボタンが押された行のタスクを消す処理
@@ -64,6 +69,7 @@ export const App = () => {
         todoText={todoText}
         onChange={onChangeText}
         onClick={onClickAdd}
+        errorTodos={errorTodos}
       />
 
       <InCompleteTodo
