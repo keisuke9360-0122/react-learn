@@ -11,9 +11,9 @@ export const InputTodo = (props) => {
       <input placeholder="TODOを入力" value={todoText} onChange={onChange} />
       <button onClick={onClick}>追加</button>
       {errorTodos && (
-        <span className="text" style={{ color: "red" }}>
-          未入力です
-        </span>
+        <div className="text" style={{ color: "red" }}>
+          todo名は必須です。
+        </div>
       )}
     </div>
   );

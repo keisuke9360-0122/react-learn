@@ -17,21 +17,15 @@ export const App = () => {
 
   // インプットエリアから未完了エリアにテキストを追加する関数
   const onClickAdd = () => {
-    console.log(errorTodos);
-
     if (todoText === "") {
       const judge = true;
       seterrorTodos(judge);
       return;
     }
-    //   const noTodos =[...inCompleteTodos];
-    //   console.log(inCompleteTodos)
-    //   console.log(seterrorTodos(noTodos))
-    // }else{
+
     const newTodos = [...inCompleteTodos, todoText];
     setInompleteTodos(newTodos);
     seterrorTodos(false);
-    console.log(errorTodos);
     setTodoText("");
   };
 
@@ -40,7 +34,6 @@ export const App = () => {
     const newTodos = [...inCompleteTodos];
     newTodos.splice(index, 1);
     setInompleteTodos(newTodos);
-    alert(index);
   };
 
   // 未完了のタスクの完了ボタンが押され、未完了のタスクが消え完了エリアに追加する処理
