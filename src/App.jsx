@@ -3,8 +3,15 @@ import "./index.css";
 import { InputTodo } from "./component/InputTodo";
 import { InCompleteTodo } from "./component/IncompleteTodo";
 import { CompleteTodo } from "./component/CompleteTodo";
+import GetTodo from "./component/todo";
+import { createContext } from "react";
+let data = {};
+console.log(data);
+export const Context = createContext();
+// import {TodoData} from "./component/todo"
 export const App = () => {
   const [todoText, setTodoText] = useState("");
+
   const [inCompleteTodos, setInompleteTodos] = useState([]);
   const [completeTodos, setCompleteTodos] = useState([]);
   const [errorTodos, seterrorTodos] = useState(false);
@@ -58,18 +65,29 @@ export const App = () => {
     /////何をレンダリングするか//////////
     <>
       {/* インプットコンポーネントに変数や関数を渡す */}
+
       <InputTodo
         todoText={todoText}
         onChange={onChangeText}
         onClick={onClickAdd}
         errorTodos={errorTodos}
       />
+      {/* <TodoData
+       onLoadTodo={myTodo}/> */}
 
       <InCompleteTodo
         todos={inCompleteTodos}
         onClickComplete={onClickComplete}
         onClickDelate={onClickDelate}
+        // onLoadTodo={onLoadTodo}
       />
+      <Context.Provider value={data}>
+        <GetTodo
+          todos={inCompleteTodos}
+          onClickComplete={onClickComplete}
+          onClickDelate={onClickDelate}
+        />
+      </Context.Provider>
 
       <CompleteTodo todos={completeTodos} onClickBack={onClickBack} />
       <div></div>
