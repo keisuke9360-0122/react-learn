@@ -6,7 +6,6 @@ export const GetTodo = (props) => {
   const { todos, onClickComplete, onClickDelate } = props;
   const context = useContext(Context);
   const [toDo, setTodo] = useState([]);
-  let gg = [];
   useEffect(() => {
     fetch("http://localhost:3000/todo/")
       .then((res) => res.json())
@@ -14,8 +13,6 @@ export const GetTodo = (props) => {
         (result) => {
           result.map((r) => {
             console.log(r);
-            // const ff = [...toDo, r.do];
-            // console.log(ff);
             setTodo([...toDo, r.do]);
           });
         },
