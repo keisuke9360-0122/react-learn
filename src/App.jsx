@@ -4,11 +4,7 @@ import { InputTodo } from "./component/InputTodo";
 import { InCompleteTodo } from "./component/IncompleteTodo";
 import { CompleteTodo } from "./component/CompleteTodo";
 import GetTodo from "./component/todo";
-import { createContext } from "react";
-let data = {};
-console.log(data);
-export const Context = createContext();
-// import {TodoData} from "./component/todo"
+
 export const App = () => {
   const [todoText, setTodoText] = useState("");
 
@@ -74,21 +70,17 @@ export const App = () => {
       />
       {/* <TodoData
        onLoadTodo={myTodo}/> */}
-
       <InCompleteTodo
         todos={inCompleteTodos}
         onClickComplete={onClickComplete}
         onClickDelate={onClickDelate}
         // onLoadTodo={onLoadTodo}
       />
-      <Context.Provider value={data}>
-        <GetTodo
-          todos={inCompleteTodos}
-          onClickComplete={onClickComplete}
-          onClickDelate={onClickDelate}
-        />
-      </Context.Provider>
-
+      <GetTodo
+        todos={inCompleteTodos}
+        onClickComplete={onClickComplete}
+        onClickDelate={onClickDelate}
+      />
       <CompleteTodo todos={completeTodos} onClickBack={onClickBack} />
       <div></div>
     </>
