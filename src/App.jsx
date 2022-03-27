@@ -3,7 +3,7 @@ import "./index.css";
 import { InputTodo } from "./component/InputTodo";
 import { InCompleteTodo } from "./component/IncompleteTodo";
 import { CompleteTodo } from "./component/CompleteTodo";
-import GetTodo from "./component/todo";
+import GetTodo from "./component/Todo";
 
 export const App = () => {
   const [todoText, setTodoText] = useState("");
@@ -27,6 +27,7 @@ export const App = () => {
     }
 
     const newTodos = [...inCompleteTodos, todoText];
+
     setInompleteTodos(newTodos);
     seterrorTodos(false);
     setTodoText("");
@@ -35,6 +36,7 @@ export const App = () => {
   // 未完了のエリアから削除ボタンが押された行のタスクを消す処理
   const onClickDelate = (index) => {
     const newTodos = [...inCompleteTodos];
+    console.log(newTodos);
     newTodos.splice(index, 1);
     setInompleteTodos(newTodos);
   };
