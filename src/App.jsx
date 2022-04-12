@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import { InputTodo } from "./component/InputTodo";
 import { InCompleteTodo } from "./component/IncompleteTodo";
 import { CompleteTodo } from "./component/CompleteTodo";
-import GetTodo from "./component/Todo";
+// import GetTodo from "./component/Todo";
 
 export const App = () => {
   const [todoText, setTodoText] = useState("");
@@ -29,6 +29,26 @@ export const App = () => {
     const newTodos = [...inCompleteTodos, todoText];
 
     setInompleteTodos(newTodos);
+    fetch("http://localhost:3001/todo/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: todoText,
+        id: newTodos.length,
+        inComplete: false,
+      }),
+    }).then(
+      function (response) {
+        response.map((item) => console.log(item.name));
+
+        // レスポンス結果
+      },
+      function (error) {
+        // エラー内容
+      }
+    );
     seterrorTodos(false);
     setTodoText("");
   };
@@ -42,12 +62,25 @@ export const App = () => {
   };
 
   // 未完了のタスクの完了ボタンが押され、未完了のタスクが消え完了エリアに追加する処理
-  const onClickComplete = (index) => {
+  const onClickComplete = (todo, index) => {
     const newInCompleteTodos = [...inCompleteTodos];
     newInCompleteTodos.splice(index, 1);
     setInompleteTodos(newInCompleteTodos);
     const addTodo = [...completeTodos, inCompleteTodos[index]];
     setCompleteTodos(addTodo);
+    console.log("index", index);
+    console.log(todo);
+    console.log("http://localhost:3001/todo/${index}");
+    fetch(`http://localhost:3001/todo/${todo.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: todo.name,
+        inComplete: true,
+      }),
+    });
   };
 
   //  完了エリアのタスクの戻すボタンが押され、押されたタスクが未完了エリアに追加される処理
@@ -58,6 +91,24 @@ export const App = () => {
     setInompleteTodos(backTodos);
     setCompleteTodos(newCompleteTodos);
   };
+
+  useEffect(() => {
+    fetch("http://localhost:3001/todo/")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          const todoValue = result.map((item) => {
+            console.log(item);
+            console.log(result);
+            return item;
+          });
+          setInompleteTodos(result);
+        },
+        (error) => {
+          seterrorTodos(true);
+        }
+      );
+  }, []);
 
   return (
     /////何をレンダリングするか//////////
@@ -78,11 +129,11 @@ export const App = () => {
         onClickDelate={onClickDelate}
         // onLoadTodo={onLoadTodo}
       />
-      <GetTodo
+      {/* <GetTodo
         todos={inCompleteTodos}
         onClickComplete={onClickComplete}
         onClickDelate={onClickDelate}
-      />
+      /> */}
       <CompleteTodo todos={completeTodos} onClickBack={onClickBack} />
       <div></div>
     </>
