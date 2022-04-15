@@ -19,16 +19,17 @@ export const App = () => {
   };
 
   // インプットエリアから未完了エリアにテキストを追加する関数
-  const onClickAdd = () => {
+  const onClickAdd = (v) => {
     if (todoText === "") {
       const judge = true;
       seterrorTodos(judge);
       return;
     }
-
+    console.log(v);
     const newTodos = [...inCompleteTodos, todoText];
-
+    console.log(todoText);
     setInompleteTodos(newTodos);
+    console.log(newTodos);
     fetch("http://localhost:3001/todo/", {
       method: "POST",
       headers: {
@@ -36,29 +37,33 @@ export const App = () => {
       },
       body: JSON.stringify({
         name: todoText,
-        id: newTodos.length,
+        id: newTodos.length + 2,
         inComplete: false,
       }),
-    }).then(
-      function (response) {
-        response.map((item) => console.log(item.name));
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res.name);
+      });
+    // response.map((item) => console.log(item.name));
+    // レスポンス結果
 
-        // レスポンス結果
-      },
-      function (error) {
-        // エラー内容
-      }
-    );
     seterrorTodos(false);
     setTodoText("");
   };
 
   // 未完了のエリアから削除ボタンが押された行のタスクを消す処理
-  const onClickDelate = (index) => {
+  const onClickDelate = (todo, index) => {
     const newTodos = [...inCompleteTodos];
     console.log(newTodos);
     newTodos.splice(index, 1);
     setInompleteTodos(newTodos);
+    fetch(`http://localhost:3001/todo/${todo.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   // 未完了のタスクの完了ボタンが押され、未完了のタスクが消え完了エリアに追加する処理
