@@ -15,6 +15,15 @@ export const App = () => {
 
   // インプットエリアから入力する処理
   const onChangeText = (event) => {
+    console.log(event);
+
+    // todoText = {
+    //   name: event.target.value,
+    //   inComplete: "",
+    //   id: "",
+    // };
+    // const yu = [...inCompleteTodos, todoText];
+    // setTodoText(yu);
     setTodoText(event.target.value);
   };
 
@@ -26,7 +35,11 @@ export const App = () => {
       return;
     }
     console.log(v);
-    const newTodos = [...inCompleteTodos, todoText];
+    const po = {
+      name: v,
+      id: inCompleteTodos.length + 1,
+    };
+    const newTodos = [...inCompleteTodos, po];
     console.log(todoText);
     setInompleteTodos(newTodos);
     console.log(newTodos);
@@ -37,7 +50,7 @@ export const App = () => {
       },
       body: JSON.stringify({
         name: todoText,
-        id: newTodos.length + 2,
+        id: newTodos.length + 1,
         inComplete: false,
       }),
     })
