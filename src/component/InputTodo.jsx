@@ -10,7 +10,7 @@ export const InputTodo = (props) => {
   return (
     <div className="input-area">
       <input placeholder="TODOを入力" value={todoText} onChange={onChange} />
-      <button onClick={() => onClick(todoText)}>追加</button>
+      <button onClick={() => onClick()}>追加</button>
       {errorTodos && (
         <div className="text" style={{ color: "red" }}>
           todo名は必須です。

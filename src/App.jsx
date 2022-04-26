@@ -16,28 +16,20 @@ export const App = () => {
   // インプットエリアから入力する処理
   const onChangeText = (event) => {
     console.log(event);
-
-    // todoText = {
-    //   name: event.target.value,
-    //   inComplete: "",
-    //   id: "",
-    // };
-    // const yu = [...inCompleteTodos, todoText];
-    // setTodoText(yu);
     setTodoText(event.target.value);
   };
 
   // インプットエリアから未完了エリアにテキストを追加する関数
-  const onClickAdd = (v) => {
+  const onClickAdd = (w) => {
     if (todoText === "") {
       const judge = true;
       seterrorTodos(judge);
       return;
     }
-    console.log(v);
+    console.log(w);
     const po = {
-      name: v,
-      id: inCompleteTodos.length + 1,
+      name: todoText,
+      id: inCompleteTodos.length + 10,
     };
     const newTodos = [...inCompleteTodos, po];
     console.log(todoText);
@@ -50,7 +42,7 @@ export const App = () => {
       },
       body: JSON.stringify({
         name: todoText,
-        id: newTodos.length + 1,
+        id: newTodos.length + 10,
         inComplete: false,
       }),
     })
@@ -78,10 +70,13 @@ export const App = () => {
       },
     });
   };
-
+  localStorage.setItem("newTodo", JSON.stringify(inCompleteTodos));
   // 未完了のタスクの完了ボタンが押され、未完了のタスクが消え完了エリアに追加する処理
   const onClickComplete = (todo, index) => {
     const newInCompleteTodos = [...inCompleteTodos];
+
+    const newItem = localStorage.getItem("newTodo");
+    console.log(JSON.parse(newItem));
     newInCompleteTodos.splice(index, 1);
     setInompleteTodos(newInCompleteTodos);
     const addTodo = [...completeTodos, inCompleteTodos[index]];
@@ -102,12 +97,22 @@ export const App = () => {
   };
 
   //  完了エリアのタスクの戻すボタンが押され、押されたタスクが未完了エリアに追加される処理
-  const onClickBack = (index) => {
+  const onClickBack = (todo, index) => {
     const newCompleteTodos = [...completeTodos];
     newCompleteTodos.splice(index, 1);
     const backTodos = [...inCompleteTodos, completeTodos[index]];
     setInompleteTodos(backTodos);
     setCompleteTodos(newCompleteTodos);
+    fetch(`http://localhost:3001/todo/${todo.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: todo.name,
+        inComplete: false,
+      }),
+    });
   };
 
   useEffect(() => {
@@ -115,16 +120,29 @@ export const App = () => {
       .then((res) => res.json())
       .then(
         (result) => {
-          const todoValue = result.map((item) => {
-            console.log(item);
-            console.log(result);
-            return item;
-          });
-          setInompleteTodos(result);
-        },
-        (error) => {
-          seterrorTodos(true);
+          setCompleteTodos(result.filter((e) => e.inComplete === true));
+          setInompleteTodos(result.filter((e) => e.inComplete === false));
         }
+        // (result) => {
+        //   console.log();
+
+        //   result.map((item) => {
+        //     if (item.inComplete === true) {
+        //       // setInompleteTodos(item);
+        //       const addTodo = [...completeTodos,item];
+        //       setCompleteTodos(addTodo);
+        //       console.log(item);
+        //     } else {
+        //       const newTodos = [...inCompleteTodos, item];
+        //       console.log(inCompleteTodos);
+        //       setInompleteTodos(newTodos);
+        //     }
+        //   });
+        //   // setInompleteTodos(result);
+        // },
+        // (error) => {
+        //   seterrorTodos(true);
+        // }
       );
   }, []);
 
@@ -132,7 +150,6 @@ export const App = () => {
     /////何をレンダリングするか//////////
     <>
       {/* インプットコンポーネントに変数や関数を渡す */}
-
       <InputTodo
         todoText={todoText}
         onChange={onChangeText}
