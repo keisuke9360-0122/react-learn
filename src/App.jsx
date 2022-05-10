@@ -3,7 +3,7 @@ import "./index.css";
 import { InputTodo } from "./component/InputTodo";
 import { InCompleteTodo } from "./component/IncompleteTodo";
 import { CompleteTodo } from "./component/CompleteTodo";
-
+import { v4 as uuidv4 } from "uuid";
 export const App = () => {
   const [todoText, setTodoText] = useState("");
   const [inCompleteTodos, setInompleteTodos] = useState([]);
@@ -13,7 +13,6 @@ export const App = () => {
 
   // インプットエリアから入力する処理
   const onChangeText = (event) => {
-    console.log(event);
     setTodoText(event.target.value);
   };
 
@@ -24,9 +23,11 @@ export const App = () => {
       seterrorTodos(judge);
       return;
     }
+    // const shortid = require("shortid");
+    const shortid = uuidv4();
     const newText = {
       name: todoText,
-      id: todoText,
+      id: shortid,
     };
     const newTodos = [...inCompleteTodos, newText];
     setInompleteTodos(newTodos);
@@ -36,8 +37,7 @@ export const App = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: todoText,
-        id: todoText,
+        ...newText,
         inComplete: false,
       }),
     }).then((response) => response.json());
@@ -72,6 +72,7 @@ export const App = () => {
       },
       body: JSON.stringify({
         name: todo.name,
+        id: todo.id,
         inComplete: true,
       }),
     });
@@ -91,6 +92,7 @@ export const App = () => {
       },
       body: JSON.stringify({
         name: todo.name,
+        id: todo.id,
         inComplete: false,
       }),
     });

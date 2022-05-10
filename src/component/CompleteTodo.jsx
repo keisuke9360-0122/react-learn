@@ -8,10 +8,10 @@ export const CompleteTodo = (props) => {
       <ul>
         {todos.map((todo, index) => {
           return (
-            <div key={index} className="list-row">
-              <li>{todo.name}</li>
+            <li key={index} className="list-row">
+              <span>{todo.name}</span>
               <button onClick={() => onClickBack(todo, index)}>戻す</button>
-            </div>
+            </li>
           );
         })}
       </ul>
