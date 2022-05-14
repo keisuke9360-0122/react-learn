@@ -23,11 +23,10 @@ export const App = () => {
       seterrorTodos(judge);
       return;
     }
-    // const shortid = require("shortid");
-    const shortid = uuidv4();
+    const privateId = uuidv4();
     const newText = {
       name: todoText,
-      id: shortid,
+      id: privateId,
     };
     const newTodos = [...inCompleteTodos, newText];
     setInompleteTodos(newTodos);
