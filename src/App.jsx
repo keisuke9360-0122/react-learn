@@ -120,7 +120,6 @@ export const App = () => {
         todos={inCompleteTodos}
         onClickComplete={onClickComplete}
         onClickDelate={onClickDelate}
-        // onLoadTodo={onLoadTodo}
       />
       <CompleteTodo todos={completeTodos} onClickBack={onClickBack} />
       <div></div>
