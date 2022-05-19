@@ -70,8 +70,7 @@ export const App = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: todo.name,
-        id: todo.id,
+        ...todo,
         inComplete: true,
       }),
     });
@@ -90,8 +89,7 @@ export const App = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: todo.name,
-        id: todo.id,
+        ...todo,
         inComplete: false,
       }),
     });
