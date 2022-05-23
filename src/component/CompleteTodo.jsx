@@ -1,7 +1,6 @@
 import React from "react";
 
-export const CompleteTodo = (props) => {
-  const { todos, onClickBack } = props;
+export const CompleteTodo = ({ todos, onClickBack }) => {
   return (
     <div className="complete-area ">
       <p className="title">完了のTODO</p>
