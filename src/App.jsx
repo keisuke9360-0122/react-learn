@@ -19,8 +19,7 @@ export const App = () => {
   // インプットエリアから未完了エリアにテキストを追加する関数
   const onClickAdd = () => {
     if (todoText === "") {
-      const judge = true;
-      seterrorTodos(judge);
+      seterrorTodos(true);
       return;
     }
     const privateId = uuidv4();
@@ -120,7 +119,6 @@ export const App = () => {
         onClickDelate={onClickDelate}
       />
       <CompleteTodo todos={completeTodos} onClickBack={onClickBack} />
-      <div></div>
     </>
   );
 };

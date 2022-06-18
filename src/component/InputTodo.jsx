@@ -1,10 +1,8 @@
 import React from "react";
 
 //(水色のインプットエリアのコンポーネント化)
-export const InputTodo = (props) => {
+export const InputTodo = ({ todoText, onChange, onClick, errorTodos }) => {
   //必要な情報をpropsを通して、分割して読み込む
-
-  const { todoText, onChange, onClick, errorTodos } = props;
   return (
     <div className="input-area">
       <input placeholder="TODOを入力" value={todoText} onChange={onChange} />
